@@ -1,11 +1,11 @@
-import { productos } from '../data/productos'
+import { productos as data } from '../data/productos'
 import Producto from '../components/Producto'
 import useQuiosco from '../hooks/useQuiosco'
 
 export default function Inicio() {
 
     const { categoriaActual } = useQuiosco()
-
+    const producto = data.filter(producto => producto.categoria_id === categoriaActual.id)
 
     return (
         <>
@@ -13,7 +13,7 @@ export default function Inicio() {
             <p className='text-2xl my-10'>Elige y personaliza tu pedido a continuación</p>
 
             <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-                {productos.map(producto => (
+                {producto.map(producto => (
 
                     <Producto
                         key={producto.imagen}
