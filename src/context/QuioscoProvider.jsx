@@ -1,5 +1,6 @@
 
 import { createContext, useState } from "react"
+import { toast } from "react-toastify"
 import { categorias as categoriasDB } from "../data/categorias"
 
 
@@ -36,7 +37,17 @@ const QuioscoProvider = ({ children }) => {
     const handleAgregarPedido = ({ categoria_id, imagen, ...producto }) => {
 
         //setPedido es un array, si queremos agregar productos a este array no podemos utilizar el metodo push porque este metodo nos genera un nuevo array y eso modificaria el state original,eso no se puede hacer en react, entonces lo que hacemos es tomar una copia del pedido(...pedido) y agregarle un producto.
-        setPedido([...pedido, producto])
+
+        if (pedido.some(pedidoState => pedidoState.id === producto.id)) {
+
+            const pedidoActualizado = pedido.map(pedidoState => pedidoState.id === producto.id ? producto : pedidoState)
+            setPedido(pedidoActualizado)
+            toast.success('Guardado Correctamente')
+
+        } else {
+            setPedido([...pedido, producto])
+            toast.success('Agregado al Pedido')
+        }
     }
 
 
