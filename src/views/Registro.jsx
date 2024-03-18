@@ -1,6 +1,36 @@
+import { createRef, useState } from "react"
 import { Link } from "react-router-dom"
+import clienteAxios from "../config/axios"
 
 export default function Registro() {
+
+    const nameRef = createRef()
+    const emailRef = createRef()
+    const passwordRef = createRef()
+    const PasswordConfirmationRef = createRef()
+
+    const handleSubmit = async e => {
+        e.preventDefault()
+
+        const datos = {
+
+            name: nameRef.current.value,
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            password_confirmation: PasswordConfirmationRef.current.value,
+
+        }
+
+        try {
+            const respuesta = await clienteAxios.post('/api/registro', datos)
+            console.log(respuesta)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+
     return (
 
         <>
@@ -8,7 +38,7 @@ export default function Registro() {
             <p>Crea tu cuenta llenando el formulario</p>
 
             <div className="bg-white shadow-md rounded-md mt-10 px-5 py-10">
-                <form action="" method="post">
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="name" className="text-late-800">Nombre:</label>
                         <input
@@ -17,6 +47,7 @@ export default function Registro() {
                             id="name"
                             className="mt-2 w-full p-3 bg-gray-50"
                             placeholder="Tu Nombre"
+                            ref={nameRef}
                         />
                     </div>
 
@@ -28,6 +59,8 @@ export default function Registro() {
                             id="email"
                             className="mt-2 w-full p-3 bg-gray-50"
                             placeholder="Tu Email"
+                            ref={emailRef}
+
                         />
                     </div>
 
@@ -39,6 +72,8 @@ export default function Registro() {
                             id="password"
                             className="mt-2 w-full p-3 bg-gray-50"
                             placeholder="Tu Password"
+                            ref={passwordRef}
+
                         />
                     </div>
 
@@ -50,6 +85,8 @@ export default function Registro() {
                             id="password_confirmation"
                             className="mt-2 w-full p-3 bg-gray-50"
                             placeholder="Repetir Password"
+                            ref={PasswordConfirmationRef}
+
                         />
                     </div>
 
